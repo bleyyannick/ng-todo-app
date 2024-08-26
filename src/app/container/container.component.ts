@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
+import { CreateTodoComponent } from "../create-todo/create-todo.component";
 
 @Component({
   selector: 'app-container',
   standalone: true,
-  imports: [],
+  imports: [CreateTodoComponent],
   template:`
      <main>  
-
-     <!-- 
-      TODO: 
-      1. Add Markup for the Container Component
-      2. Add form for adding todos 
-      3. Add list of todos component 
-
-      -->
+       <div>
+          <h1>TODO</h1>
+          <img src="images/icon-sun.svg" alt=" sun theme icon" />
+       </div>
+       <app-create-todo />
     </main>
   
   `,

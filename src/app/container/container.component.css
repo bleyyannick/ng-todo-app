@@ -1,0 +1,24 @@
+:host {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    bottom: 8.5rem;
+}
+
+h1 {
+    letter-spacing: .8rem;
+    font-size: 1.7rem;
+}
+
+main {
+    width: 40%;
+    max-width: 700px;
+    min-width: 300px;
+    color: white;
+}
+
+main > div {
+    display: flex;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+}

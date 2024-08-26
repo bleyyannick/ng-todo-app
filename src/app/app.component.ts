@@ -1,12 +1,15 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { HeaderComponent } from "./header/header.component";
+import { ContainerComponent } from "./container/container.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ContainerComponent],
   template: `
     <app-header />
+    <app-container>
+    </app-container>
   `,
   host: {
     'class': 'root'
