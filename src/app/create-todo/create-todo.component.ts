@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
      <form>
+      <div class="create-todo">
+         <div class="circle"></div>
        <input type="text" placeholder="Create a new todo..." />
+      </div>
     </form>
 
   `, 

@@ -1,11 +1,25 @@
 
 
-form > input {
-    width: 100%;
-    padding: .9rem;
-    background-color: hsl(235, 21%, 11%);
+form input {
+    background: inherit;
+    border: transparent;
     color: white;
-    border-radius: 6px; 
-    border:transparent;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    width: 100%;
+}
+
+.create-todo {
+    display: flex;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: hsl(235, 24%, 19%);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  
+}
+
+.create-todo > div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  margin-right: 1rem;
 }
