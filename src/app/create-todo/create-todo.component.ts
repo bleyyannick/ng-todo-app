@@ -19,7 +19,9 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component"; // Impo
          (keydown)="onEnter($event)" />
       </div>
     </form>
-    <app-tasks-list [tasks]="this.tasksList()"/>
+    <app-tasks-list 
+     [tasks]="this.tasksList()"
+     (onCompleted)="toCompleteTask($event)"/>
 
   `, 
   styleUrl: './create-todo.component.css'
@@ -47,6 +49,21 @@ addTask(input: string) {
       return [...tasks, newTask];
     }) 
   }
+}
+
+toCompleteTask(selectedTask: Task) {
+  this.tasksList.update(tasks => {
+    return [...tasks].map(task => {
+      if(selectedTask.id === task.id) {
+        return {
+          ...task,
+          status: TaskStatus["Completed"]
+        }
+      }
+      console.log(task);
+      return task;
+    })
+  })
 }
 
 

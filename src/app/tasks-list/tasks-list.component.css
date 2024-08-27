@@ -1,0 +1,36 @@
+
+
+:host{
+    margin: 2rem 0; 
+}
+.tasks-list {
+    display: flex;
+    justify-content: space-between;
+    padding: .94rem;
+    background: hsl(235, 24%, 19%);
+    border: 1px solid hsl(233, 14%, 35%);
+}
+.task {
+    display: flex;
+}
+
+h2 {
+    margin: 3rem;
+    text-align: center;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid gray;
+    margin-right: 1rem; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+.circle :hover {
+    cursor: pointer;
+  }
+
+
