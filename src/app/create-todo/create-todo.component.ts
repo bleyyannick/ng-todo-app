@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Task, TaskStatus } from '../types'; // Import the TaskStatus enum from the appropriate location
+import { Task, TaskStatus } from '../types';
+import { TasksListComponent } from "../tasks-list/tasks-list.component"; // Import the TaskStatus enum from the appropriate location
 
 @Component({
   selector: 'app-create-todo',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TasksListComponent],
   template: `
      <form>
       <div class="create-todo">
@@ -18,6 +19,7 @@ import { Task, TaskStatus } from '../types'; // Import the TaskStatus enum from 
          (keydown)="onEnter($event)" />
       </div>
     </form>
+    <app-tasks-list [tasks]="this.tasksList()"/>
 
   `, 
   styleUrl: './create-todo.component.css'
@@ -31,6 +33,7 @@ onEnter(event: KeyboardEvent) {
   if( event.key === 'Enter' ) {
     this.addTask(this.todo);
   }
+  this.todo = '';
 }
 addTask(input: string) {
   if(input.trim() !== '' ) {
