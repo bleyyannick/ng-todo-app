@@ -31,9 +31,10 @@ export class CreateTodoComponent {
 
 onEnter(event: KeyboardEvent) {
   if( event.key === 'Enter' ) {
+    event.preventDefault();
     this.addTask(this.todo);
+    this.todo = '';
   }
-  this.todo = '';
 }
 addTask(input: string) {
   if(input.trim() !== '' ) {
@@ -44,10 +45,8 @@ addTask(input: string) {
         status: TaskStatus["Todo"]
       }
       return [...tasks, newTask];
-    })
-    
+    }) 
   }
-
 }
 
 

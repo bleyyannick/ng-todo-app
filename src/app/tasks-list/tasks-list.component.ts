@@ -16,10 +16,6 @@ import { Task } from '../types';
   styleUrl: './tasks-list.component.css'
 })
 export class TasksListComponent {
-   
+  
    tasks = input<Task[]>();
-
-   constructor() {
-    console.log(this.tasks());
-   }
 }
