@@ -5,7 +5,7 @@ export interface Task {
 
 }
 
-enum TaskStatus {
+export enum TaskStatus {
     Active = "active",
     Completed = "completed",
     Todo = "todo"
