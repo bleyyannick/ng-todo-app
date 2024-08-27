@@ -7,7 +7,7 @@ import { Task } from '../types';
   imports: [],
   template:`
   @for( task of this.tasks(); track task.id ) { 
-    <div class="tasks-list">
+    <div class="tasks-list" draggable="true">
       <div class="task">
         <div class="circle" (click)="completeTask(task)">
           <img src="images/icon-check.svg" alt="checkmark" />
