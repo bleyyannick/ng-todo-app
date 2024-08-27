@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Task, TaskStatus } from '../types';
-import { TasksListComponent } from "../tasks-list/tasks-list.component"; // Import the TaskStatus enum from the appropriate location
+import { TasksListComponent } from "../tasks-list/tasks-list.component";
 
 @Component({
   selector: 'app-create-todo',
@@ -16,11 +16,11 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component"; // Impo
          placeholder="Create a new todo..."
          [(ngModel)]="todo"
          name="todo"
-         (keydown)="onEnter($event)" />
+         (keydown)="onEnter($event, todo)" />
       </div>
     </form>
     <app-tasks-list 
-     [tasks]="this.tasksList()"
+     [tasks]="tasksList()"
      (onCompleted)="toCompleteTask($event)"/>
 
   `, 
@@ -31,10 +31,10 @@ export class CreateTodoComponent {
   todo :string = '';
   tasksList = signal<Task[]>([]);
 
-onEnter(event: KeyboardEvent) {
+onEnter(event: KeyboardEvent, task: string) {
   if( event.key === 'Enter' ) {
     event.preventDefault();
-    this.addTask(this.todo);
+    this.addTask(task);
     this.todo = '';
   }
 }
@@ -42,7 +42,7 @@ addTask(input: string) {
   if(input.trim() !== '' ) {
     this.tasksList.update(tasks => {
       const newTask: Task = {
-        id: Math.floor((Math.random() * 1) * this.todo.length),
+        id:  Date.now() + Math.floor(Math.random() * 1000),
         description: this.todo,
         status: TaskStatus["Todo"]
       }
@@ -60,7 +60,6 @@ toCompleteTask(selectedTask: Task) {
           status: TaskStatus["Completed"]
         }
       }
-      console.log(task);
       return task;
     })
   })

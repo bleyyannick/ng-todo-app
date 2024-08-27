@@ -14,6 +14,16 @@
     display: flex;
 }
 
+.completed {
+    text-decoration: line-through;
+    color: hsl(233, 14%, 35%);
+}
+
+.circle-completed {
+    background: linear-gradient(120deg, hsl(192, 100%, 67%) 0%, hsl(280, 87%, 65%) 100%);
+    border: 1px solid hsl(192, 100%, 67%);
+}
+
 h2 {
     margin: 3rem;
     text-align: center;
