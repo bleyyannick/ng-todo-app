@@ -7,7 +7,7 @@ import { ContainerComponent } from "./container/container.component";
   standalone: true,
   imports: [HeaderComponent, ContainerComponent],
   template: `
-    <app-header />
+    <app-header/>
     <app-container>
     </app-container>
   `,
