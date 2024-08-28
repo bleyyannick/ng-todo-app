@@ -36,7 +36,7 @@ import { Task, TaskStatus } from '../types';
               <li (click)="filterByActiveTasks()">Active</li>
               <li (click)="filterByCompletedTasks()">Completed</li>
            </ul>
-            <button>Clear Completed</button>
+            <button (click)="clearComputedTasks()">Clear Completed</button>
           </div>
    
     `,
@@ -49,9 +49,9 @@ export class TasksListComponent {
    onCompleted = output<number>();
    onDeleted = output<number>();
    onAllTasks = output<Task[]>();
-   onFilterByActive = output<TaskStatus>();
-   onFilterByCompleted = output<TaskStatus>();
+   onFilter = output<TaskStatus>();
    onShowAll = output<Task[]>();
+   onClearComputedTasks = output<void>();
 
    completeTask( taskId: number ) {
     this.onCompleted.emit(taskId);
@@ -61,13 +61,16 @@ export class TasksListComponent {
    }
 
   filterByActiveTasks() {
-    this.onFilterByActive.emit(TaskStatus.Active);
+    this.onFilter.emit(TaskStatus.Active);
     }
   filterByCompletedTasks() {
-    this.onFilterByCompleted.emit(TaskStatus.Completed);
+    this.onFilter.emit(TaskStatus.Completed);
     }
   allTasks() {  
     this.onShowAll.emit([...this.tasks()]);
+  }
+  clearComputedTasks() {
+    this.onClearComputedTasks.emit();
   }
 
 }

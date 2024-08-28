@@ -21,11 +21,11 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component";
     </form>
     <app-tasks-list 
      [tasks]="filteredTasks()"  
-     (onFilterByActive)="filterActiveTasks()"
-     (onFilterByCompleted)="filterCompletedTasks()"
+     (onFilter)="filterTasks($event)"
      (onShowAll)="showAllTasks()"
      (onCompleted)="toCompleteTask($event)"
-     (onDeleted)="toDeleteTask($event)"/>
+     (onDeleted)="toDeleteTask($event)"
+     (onClearComputedTasks)="clearCompletedTasks()"/>
   `, 
   styleUrl: './create-todo.component.css'
 })
@@ -36,7 +36,7 @@ export class CreateTodoComponent {
   readonly filteredTasks = signal<Task[]>([...this.tasks()]);
 
   onEnter(event: KeyboardEvent, task: string) {
-    if( event.key === 'Enter' ) {
+    if(event.key === 'Enter' ) {
       event.preventDefault();
       this.addTask(task);
       this.todo = '';
@@ -58,36 +58,33 @@ export class CreateTodoComponent {
   }
 
   toCompleteTask(selectedTaskId: number) {
-    this.tasks.update(tasks => {
-      const taskIndex = tasks.findIndex(task => task.id === selectedTaskId);
-      tasks[taskIndex].status = TaskStatus.Completed;
-      return [...tasks];
-    });
+    this.tasks.update(tasks => tasks.map(task => {
+      if(task.id === selectedTaskId) {
+        return { ...task, status: TaskStatus.Completed };
+      }
+      return task;
+    }));
     this.showAllTasks();
   }
 
   toDeleteTask(id: number) {
-    this.tasks.update(tasks => {
-      const taskIndex = tasks.findIndex(task => task.id === id);
-      return [...tasks.slice(0, taskIndex), ...tasks.slice(taskIndex + 1)];
-    });
+    this.tasks.update(tasks =>  tasks.filter(task => task.id !== id));
     this.showAllTasks();
   }
 
-  filterActiveTasks() {
+  filterTasks( status: TaskStatus ) {
     this.filteredTasks.update(() => {
-      return [...this.tasks()].filter(task => task.status === TaskStatus.Active);
-    });
-  }
-
-  filterCompletedTasks() {
-    this.filteredTasks.update(() => {
-      return [...this.tasks()].filter(task => task.status === TaskStatus.Completed);
+      return [...this.tasks()].filter(task => task.status === status);
     });
   }
 
   showAllTasks() {  
     this.filteredTasks.update(() => [...this.tasks()]);
+  }
+
+  clearCompletedTasks() {
+    this.tasks.update(tasks => tasks.filter(task => task.status !== TaskStatus.Completed));
+    this.showAllTasks();
   }
 
 }
