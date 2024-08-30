@@ -37,14 +37,14 @@ export class CreateTodoComponent {
   readonly filteredTasks = signal<Task[]>([]);
 
   constructor() {
-    this.showAllTasks();  // Initialize filtered tasks with all tasks on component load
+    this.showAllTasks();
   }
 
   onEnter(event: KeyboardEvent) {
     if (event.key === 'Enter' && this.todo.trim() !== '') {
       event.preventDefault();
       this.addTask(this.todo.trim());
-      this.todo = '';  // Clear input field after adding task
+      this.todo = ''; 
     }
   }
 
@@ -55,7 +55,7 @@ export class CreateTodoComponent {
       status: TaskStatus.Active
     };
     this.tasks.update(tasks => [...tasks, newTask]);
-    this.showAllTasks();  //
+    this.showAllTasks();
   }
 
   toCompleteTask(index: number) {
@@ -70,7 +70,7 @@ export class CreateTodoComponent {
   }
 
   reorderTasks(reorderedTasks: Task[]) {
-    this.tasks.set([...reorderedTasks]); // Update tasks with reordered tasks
+    this.tasks.set([...reorderedTasks]);
     this.showAllTasks();  
   }
 

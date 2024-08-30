@@ -92,7 +92,8 @@ export class TasksListComponent {
   handleDragOver(event: DragEvent) {
     event.preventDefault();
   }
-   handleDrop(event: DragEvent, dropIndex: number) {
+
+  handleDrop(event: DragEvent, dropIndex: number) {
       event.preventDefault();
 
       if (this.draggedTaskIndex !== dropIndex) {
