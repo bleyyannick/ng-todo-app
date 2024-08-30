@@ -29,7 +29,7 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component";
       (onReorder)="reorderTasks($event)"
     />
   `,
-  styleUrls: ['./create-todo.component.css']
+  styleUrl: './create-todo.component.css'
 })
 export class CreateTodoComponent {
   todo: string = '';

@@ -55,11 +55,10 @@ export class TasksListComponent {
    TaskStatus = TaskStatus;
    onCompleted = output<number>();
    onDeleted = output<number>();
-   onAllTasks = output<Task[]>();
    onFilter = output<TaskStatus>();
    onShowAll = output<Task[]>();
    onClearComputedTasks = output<void>();
-    onReorder = output<Task[]>();
+   onReorder = output<Task[]>();
 
    completeTask( taskId: number ) {
     this.onCompleted.emit(taskId);
