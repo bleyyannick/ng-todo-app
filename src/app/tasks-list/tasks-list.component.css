@@ -9,6 +9,7 @@
     padding: .94rem;
     background: hsl(235, 24%, 19%);
     border: 1px solid hsl(233, 14%, 35%);
+    cursor: move;
 }
 .task {
     display: flex;

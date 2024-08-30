@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Task, TaskStatus } from '../types';
 
 @Component({
@@ -6,8 +6,13 @@ import { Task, TaskStatus } from '../types';
   standalone: true,
   imports: [],
   template:`
-      @for( task of tasks(); track task.id ) { 
-        <div class="tasks-list">
+      @for( task of tasks(); let index = $index; track task.id ) { 
+        <div class="tasks-list" 
+             id="task-list-item"
+             draggable="true"
+             (drop)="handleDrop($event, $index)"
+             (dragstart)="handleDragStart($event, $index)"
+             (dragover)="handleDragOver($event)"> 
           <div [class]="{
             'task': true,
             'completed': task.status === TaskStatus.Completed
@@ -15,7 +20,7 @@ import { Task, TaskStatus } from '../types';
             <div [class]="{
               'circle': true,
               'circle-completed': task.status === TaskStatus.Completed
-            }" (click)="completeTask(task.id)">
+            }" (click)="completeTask(index)">
               <img src="images/icon-check.svg" alt="checkmark" />
             </div>
             <div >
@@ -43,6 +48,8 @@ import { Task, TaskStatus } from '../types';
   styleUrl: './tasks-list.component.css'
 })
 export class TasksListComponent {
+
+    private draggedTaskIndex!:number
   
    tasks = input.required<Task[]>();
    TaskStatus = TaskStatus;
@@ -52,6 +59,7 @@ export class TasksListComponent {
    onFilter = output<TaskStatus>();
    onShowAll = output<Task[]>();
    onClearComputedTasks = output<void>();
+    onReorder = output<Task[]>();
 
    completeTask( taskId: number ) {
     this.onCompleted.emit(taskId);
@@ -73,4 +81,25 @@ export class TasksListComponent {
     this.onClearComputedTasks.emit();
   }
 
+  handleDragStart(event: DragEvent, index: number) {
+    this.draggedTaskIndex = index 
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', String(this.draggedTaskIndex));
+    }
+  }
+
+  handleDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+   handleDrop(event: DragEvent, dropIndex: number) {
+      event.preventDefault();
+
+      if (this.draggedTaskIndex !== dropIndex) {
+        const updatedTasks = [...this.tasks()];
+        const [draggedTask] = updatedTasks.splice(this.draggedTaskIndex, 1);
+        updatedTasks.splice(dropIndex, 0, draggedTask);
+        this.onReorder.emit(updatedTasks);
+      }
+    }
 }

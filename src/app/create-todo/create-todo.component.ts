@@ -8,83 +8,87 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component";
   standalone: true,
   imports: [FormsModule, TasksListComponent],
   template: `
-     <form>
+    <form>
       <div class="create-todo">
-         <div class="circle"></div>
-       <input 
-         type="text" 
-         placeholder="Create a new todo..."
-         [(ngModel)]="todo"
-         name="todo"
-         (keydown)="onEnter($event, todo)" />
+        <div class="circle"></div>
+        <input 
+          type="text" 
+          placeholder="Create a new todo..."
+          [(ngModel)]="todo"
+          name="todo"
+          (keydown)="onEnter($event)" />
       </div>
     </form>
     <app-tasks-list 
-     [tasks]="filteredTasks()"  
-     (onFilter)="filterTasks($event)"
-     (onShowAll)="showAllTasks()"
-     (onCompleted)="toCompleteTask($event)"
-     (onDeleted)="toDeleteTask($event)"
-     (onClearComputedTasks)="clearCompletedTasks()"/>
-  `, 
-  styleUrl: './create-todo.component.css'
+      [tasks]="filteredTasks()"  
+      (onFilter)="filterTasks($event)"
+      (onShowAll)="showAllTasks()"
+      (onCompleted)="toCompleteTask($event)"
+      (onDeleted)="toDeleteTask($event)"
+      (onClearComputedTasks)="clearCompletedTasks()"
+      (onReorder)="reorderTasks($event)"
+    />
+  `,
+  styleUrls: ['./create-todo.component.css']
 })
 export class CreateTodoComponent {
-
-  todo :string = '';
+  todo: string = '';
   private readonly tasks = signal<Task[]>([]);
-  readonly filteredTasks = signal<Task[]>([...this.tasks()]);
+  readonly filteredTasks = signal<Task[]>([]);
 
-  onEnter(event: KeyboardEvent, task: string) {
-    if(event.key === 'Enter' ) {
+  constructor() {
+    this.showAllTasks();  // Initialize filtered tasks with all tasks on component load
+  }
+
+  onEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.todo.trim() !== '') {
       event.preventDefault();
-      this.addTask(task);
-      this.todo = '';
-      this.showAllTasks();
+      this.addTask(this.todo.trim());
+      this.todo = '';  // Clear input field after adding task
     }
   }
 
-  addTask(input: string) {
-    if(input.trim() !== '' ) {
-      this.tasks.update(tasks => {
-        const newTask: Task = {
-          id:  Date.now() + Math.floor(Math.random() * 1000),
-          description: this.todo,
-          status: TaskStatus.Active
-        }
-        return [...tasks, newTask];
-      });
-    }
+  addTask(description: string) {
+    const newTask: Task = {
+      id: Date.now() + Math.floor(Math.random() * 1000),
+      description: description,
+      status: TaskStatus.Active
+    };
+    this.tasks.update(tasks => [...tasks, newTask]);
+    this.showAllTasks();  //
   }
 
-  toCompleteTask(selectedTaskId: number) {
-    this.tasks.update(tasks => tasks.map(task => {
-      if(task.id === selectedTaskId) {
-        return { ...task, status: TaskStatus.Completed };
+  toCompleteTask(index: number) {
+    this.tasks.update(tasks => {
+      const updatedTasks = [...tasks];
+      if (updatedTasks[index]) {
+        updatedTasks[index].status = TaskStatus.Completed;
       }
-      return task;
-    }));
-    this.showAllTasks();
+      return updatedTasks;
+    });
+    this.showAllTasks(); 
+  }
+
+  reorderTasks(reorderedTasks: Task[]) {
+    this.tasks.set([...reorderedTasks]); // Update tasks with reordered tasks
+    this.showAllTasks();  
   }
 
   toDeleteTask(id: number) {
-    this.tasks.update(tasks =>  tasks.filter(task => task.id !== id));
-    this.showAllTasks();
+    this.tasks.update(tasks => tasks.filter(task => task.id !== id)); 
+    this.showAllTasks();  
   }
 
-  filterTasks( status: TaskStatus ) {
-    this.filteredTasks.update(() => {
-      return [...this.tasks()].filter(task => task.status === status);
-    });
+  filterTasks(status: TaskStatus) {
+    this.filteredTasks.update(() => this.tasks().filter(task => task.status === status));
   }
 
-  showAllTasks() {  
+  showAllTasks() {
     this.filteredTasks.update(() => [...this.tasks()]);
   }
 
   clearCompletedTasks() {
     this.tasks.update(tasks => tasks.filter(task => task.status !== TaskStatus.Completed));
-    this.showAllTasks();
+    this.showAllTasks();  
   }
-
 }
