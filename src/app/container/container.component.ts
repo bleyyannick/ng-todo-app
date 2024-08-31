@@ -9,7 +9,9 @@ import { CreateTodoComponent } from "../create-todo/create-todo.component";
      <main>  
        <div>
           <h1>TODO</h1>
-          <img src="images/icon-sun.svg" alt=" sun theme icon" />
+          <div>
+            <img src="images/icon-sun.svg" alt=" sun theme icon" />
+          </div>
        </div>
        <app-create-todo />
     </main>

@@ -8,15 +8,15 @@ import { Task, TaskStatus } from '../types';
   template:`
       @for( task of tasks(); let index = $index; track task.id ) { 
         <div class="tasks-list" 
-             id="task-list-item"
+             id="tasks-list-item"
              draggable="true"
              (drop)="handleDrop($event, $index)"
              (dragstart)="handleDragStart($event, $index)"
              (dragover)="handleDragOver($event)"> 
           <div [class]="{
-            'task': true,
-            'completed': task.status === TaskStatus.Completed
-          }">
+              'task': true,
+              'completed': task.status === TaskStatus.Completed 
+              }">
             <div [class]="{
               'circle': true,
               'circle-completed': task.status === TaskStatus.Completed
@@ -34,22 +34,23 @@ import { Task, TaskStatus } from '../types';
         } @empty {
           <h2>No tasks to display</h2>
         }
-          <div class="tasks-list">
+        <div class="tasks-list-footer">
             <p>{{ this.tasks().length }} items left</p>
             <ul>
-              <li (click)="allTasks()">All</li>
-              <li (click)="filterByActiveTasks()">Active</li>
-              <li (click)="filterByCompletedTasks()">Completed</li>
+              <li (click)="allTasks()">
+                <p>All</p></li>
+              <li (click)="filterByActiveTasks()"><p>Active</p></li>
+              <li (click)="filterByCompletedTasks()"><p>Completed</p></li>
            </ul>
-            <button (click)="clearComputedTasks()">Clear Completed</button>
-          </div>
+            <p (click)="clearComputedTasks()">Clear Completed</p>
+        </div>
    
     `,
   styleUrl: './tasks-list.component.css'
 })
 export class TasksListComponent {
 
-    private draggedTaskIndex!:number
+  private draggedTaskIndex!:number
   
    tasks = input.required<Task[]>();
    TaskStatus = TaskStatus;

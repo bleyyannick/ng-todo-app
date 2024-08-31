@@ -1,5 +1,4 @@
 
-
 :host{
     margin: 2rem 0; 
 }
@@ -11,6 +10,27 @@
     border: 1px solid hsl(233, 14%, 35%);
     cursor: move;
 }
+
+.tasks-list-footer {
+    display: flex;
+    justify-content: space-between;
+    background: hsl(235, 24%, 19%);
+    border: 1px solid hsl(233, 14%, 35%);
+    padding: 1rem;
+   
+}
+.tasks-list-footer p {
+    font-size: .8rem;
+}
+
+.tasks-list-footer ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0;
+    margin: 0;
+}
+
 .task {
     display: flex;
 }
@@ -23,6 +43,13 @@
 .circle-completed {
     background: linear-gradient(120deg, hsl(192, 100%, 67%) 0%, hsl(280, 87%, 65%) 100%);
     border: 1px solid hsl(192, 100%, 67%);
+}
+
+.tasks-list-footer ul li{
+    margin-right: .5rem;
+}
+.tasks-list-footer ul li:hover{
+    cursor: pointer;
 }
 
 h2 {

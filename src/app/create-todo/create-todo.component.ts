@@ -54,7 +54,7 @@ export class CreateTodoComponent {
       description: description,
       status: TaskStatus.Active
     };
-    this.tasks.update(tasks => [...tasks, newTask]);
+    this.tasks.update(tasks => [newTask, ...tasks]);
     this.showAllTasks();
   }
 
