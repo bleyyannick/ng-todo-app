@@ -11,7 +11,7 @@ import { Task, TaskStatus } from '../types';
              id="tasks-list-item"
              draggable="true"
              (drop)="handleDrop($event, $index)"
-             (dragstart)="handleDragStart($event, $index)"
+             (dragstart)="handleDragStart($index)"
              (dragover)="handleDragOver($event)"> 
           <div [class]="{
               'task': true,
@@ -81,12 +81,8 @@ export class TasksListComponent {
     this.onClearComputedTasks.emit();
   }
 
-  handleDragStart(event: DragEvent, index: number) {
+  handleDragStart(index: number) {
     this.draggedTaskIndex = index 
-    if (event.dataTransfer) {
-      event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', String(this.draggedTaskIndex));
-    }
   }
 
   handleDragOver(event: DragEvent) {

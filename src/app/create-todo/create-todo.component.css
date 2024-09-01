@@ -8,12 +8,12 @@ form input {
 }
 
 .create-todo {
-    display: flex;
+  display: flex;
   padding: 1rem;
   border-radius: 5px;
   background-color: hsl(235, 24%, 19%);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  
+  margin-bottom: 1rem;
 }
 
 .create-todo > div {

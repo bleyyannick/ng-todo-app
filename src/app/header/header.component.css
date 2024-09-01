@@ -1,5 +1,9 @@
 
 
-header  > img {
+header > img {
     width: 100%;
+}
+
+@media (max-width: 375px) {
+    
 }
