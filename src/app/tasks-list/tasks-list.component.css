@@ -72,3 +72,12 @@ h2 {
   }
 
 
+@media (max-width: 375px) {
+   .tasks-list-footer {
+    margin-top: 1rem;
+   }
+   .tasks-list-footer ul {
+   display: none;
+   }
+    
+}
