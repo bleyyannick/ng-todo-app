@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Task, TaskStatus } from '../types';
 import { TasksListComponent } from "../tasks-list/tasks-list.component";
+import { TasksService } from '../services/tasks.service';
 
 @Component({
   selector: 'app-create-todo',
@@ -19,76 +20,52 @@ import { TasksListComponent } from "../tasks-list/tasks-list.component";
           (keydown)="onEnter($event)" />
       </div>
     </form>
-    <app-tasks-list 
-      [tasks]="filteredTasks()"  
-      (onFilter)="filterTasks($event)"
-      (onShowAll)="showAllTasks()"
-      (onCompleted)="toCompleteTask($event)"
-      (onDeleted)="toDeleteTask($event)"
-      (onClearComputedTasks)="clearCompletedTasks()"
-      (onReorder)="reorderTasks($event)"
-    />
+    <app-tasks-list [tasks]="filteredTasks()"/>
   `,
   styleUrl: './create-todo.component.css'
 })
 export class CreateTodoComponent {
   todo: string = '';
-  private readonly tasks = signal<Task[]>([]);
-  readonly filteredTasks = signal<Task[]>([]);
-
-  constructor() {
-    this.showAllTasks();
-  }
+  
+  tasksService = inject(TasksService);
+  filteredTasks = this.tasksService.filteredTasks;
 
   onEnter(event: KeyboardEvent) {
     if (event.key === 'Enter' && this.todo.trim() !== '') {
       event.preventDefault();
-      this.addTask(this.todo.trim());
+      this.tasksService.add(this.todo.trim());
       this.todo = ''; 
     }
+    
+
   }
 
   addTask(description: string) {
-    const newTask: Task = {
-      id: Date.now() + Math.floor(Math.random() * 1000),
-      description: description,
-      status: TaskStatus.Active
-    };
-    this.tasks.update(tasks => [newTask, ...tasks]);
-    this.showAllTasks();
+    this.tasksService.add(description);
   }
 
   toCompleteTask(index: number) {
-    this.tasks.update(tasks => {
-      const updatedTasks = [...tasks];
-      if (updatedTasks[index]) {
-        updatedTasks[index].status = TaskStatus.Completed;
-      }
-      return updatedTasks;
-    });
-    this.showAllTasks(); 
+    this.tasksService.complete(index);
   }
 
   reorderTasks(reorderedTasks: Task[]) {
-    this.tasks.set([...reorderedTasks]);
+    this.tasksService.reorderTasks(reorderedTasks);
     this.showAllTasks();  
   }
 
   toDeleteTask(id: number) {
-    this.tasks.update(tasks => tasks.filter(task => task.id !== id)); 
-    this.showAllTasks();  
+    this.tasksService.delete(id);  
   }
 
   filterTasks(status: TaskStatus) {
-    this.filteredTasks.update(() => this.tasks().filter(task => task.status === status));
+    this.tasksService.filterTasksByStatus(status);
   }
 
   showAllTasks() {
-    this.filteredTasks.update(() => [...this.tasks()]);
+   this.tasksService.showAllTasks();
   }
 
   clearCompletedTasks() {
-    this.tasks.update(tasks => tasks.filter(task => task.status !== TaskStatus.Completed));
-    this.showAllTasks();  
+    this.tasksService.clearCompletedTasks(); 
   }
 }

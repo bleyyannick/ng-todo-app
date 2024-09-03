@@ -1,5 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Task, TaskStatus } from '../types';
+import { TasksService } from '../services/tasks.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -49,34 +50,31 @@ import { Task, TaskStatus } from '../types';
 export class TasksListComponent {
 
   private draggedTaskIndex!:number
-  
+
+   tasksService = inject(TasksService);
+
    tasks = input.required<Task[]>();
    TaskStatus = TaskStatus;
-   onCompleted = output<number>();
-   onDeleted = output<number>();
-   onFilter = output<TaskStatus>();
-   onShowAll = output<Task[]>();
-   onClearComputedTasks = output<void>();
-   onReorder = output<Task[]>();
 
    completeTask( taskId: number ) {
-    this.onCompleted.emit(taskId);
+    this.tasksService.complete(taskId);
    }
    deleteTask(taskId: number) {
-    this.onDeleted.emit(taskId);
+   this.tasksService.delete(taskId);
+   this.tasksService.showAllTasks();
    }
 
   filterByActiveTasks() {
-    this.onFilter.emit(TaskStatus.Active);
+    this.tasksService.filterTasksByStatus(TaskStatus.Active);
     }
   filterByCompletedTasks() {
-    this.onFilter.emit(TaskStatus.Completed);
+    this.tasksService.filterTasksByStatus(TaskStatus.Completed);
     }
   allTasks() {  
-    this.onShowAll.emit([...this.tasks()]);
+    this.tasksService.showAllTasks();
   }
   clearComputedTasks() {
-    this.onClearComputedTasks.emit();
+    this.tasksService.clearCompletedTasks();
   }
 
   handleDragStart(index: number) {
@@ -94,7 +92,7 @@ export class TasksListComponent {
         const updatedTasks = [...this.tasks()];
         const [draggedTask] = updatedTasks.splice(this.draggedTaskIndex, 1);
         updatedTasks.splice(dropIndex, 0, draggedTask);
-        this.onReorder.emit(updatedTasks);
+        this.tasksService.reorderTasks(updatedTasks);
       }
     }
 }
