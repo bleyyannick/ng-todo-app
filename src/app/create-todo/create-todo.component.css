@@ -23,3 +23,11 @@ form input {
   border: 1px solid gray;
   margin-right: 1rem;
 }
+
+
+@media (max-width: 375px) {
+  form input, .create-todo {
+    font-size: .7rem;
+  }
+ 
+}

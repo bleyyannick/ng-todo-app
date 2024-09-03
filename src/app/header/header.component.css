@@ -5,5 +5,18 @@ header > img {
 }
 
 @media (max-width: 375px) {
+
+    header > img {
+        display: none;
+    }
+
+    header {
+        background-image: url('/images/bg-mobile-dark.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 100%;
+        min-height: 200px;
+    }
     
 }

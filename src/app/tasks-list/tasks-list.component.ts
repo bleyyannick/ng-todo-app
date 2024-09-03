@@ -8,7 +8,6 @@ import { Task, TaskStatus } from '../types';
   template:`
       @for( task of tasks(); let index = $index; track task.id ) { 
         <div class="tasks-list" 
-             id="tasks-list-item"
              draggable="true"
              (drop)="handleDrop($event, $index)"
              (dragstart)="handleDragStart($index)"
@@ -23,12 +22,12 @@ import { Task, TaskStatus } from '../types';
             }" (click)="completeTask(index)">
               <img src="images/icon-check.svg" alt="checkmark" />
             </div>
-            <div >
-                {{ task.description }}
+            <div class="task-description">
+                <p>{{ task.description }}</p>
             </div>
           </div>
           <div (click)="deleteTask(task.id)">
-              <img  src="images/icon-cross.svg" alt="cross" />
+              <img src="images/icon-cross.svg" alt="cross" />
           </div>
         </div>
         } @empty {
@@ -37,11 +36,10 @@ import { Task, TaskStatus } from '../types';
         <div class="tasks-list-footer">
             <p>{{ this.tasks().length }} items left</p>
             <ul>
-              <li (click)="allTasks()">
-                <p>All</p></li>
+              <li (click)="allTasks()"><p>All</p></li>
               <li (click)="filterByActiveTasks()"><p>Active</p></li>
               <li (click)="filterByCompletedTasks()"><p>Completed</p></li>
-           </ul>
+            </ul>
             <p (click)="clearComputedTasks()">Clear Completed</p>
         </div>
    

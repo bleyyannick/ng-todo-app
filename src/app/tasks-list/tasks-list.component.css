@@ -5,6 +5,7 @@
 .tasks-list {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: .94rem;
     background: hsl(235, 24%, 19%);
     border: 1px solid hsl(233, 14%, 35%);
@@ -33,6 +34,11 @@
 
 .task {
     display: flex;
+    align-items: center;
+}
+.task-description p {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .completed {
@@ -76,8 +82,22 @@ h2 {
    .tasks-list-footer {
     margin-top: 1rem;
    }
+   .tasks-list-footer p, .circle + div {
+    font-size: .7rem;
+   }
+   .circle + div{
+    align-items: center;
+   }
    .tasks-list-footer ul {
    display: none;
+   }
+
+   .tasks-list div:last-of-type img {
+    height: 13px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    border: none;
    }
     
 }
