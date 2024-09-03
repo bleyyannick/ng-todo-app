@@ -10,6 +10,13 @@
     background: hsl(235, 24%, 19%);
     border: 1px solid hsl(233, 14%, 35%);
     cursor: move;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    overflow-x: auto;
+}
+
+.tasks-list > div:last-child {
+   margin-left:  1rem;
 }
 
 .tasks-list-footer {
@@ -35,10 +42,6 @@
 .task {
     display: flex;
     align-items: center;
-}
-.task-description p {
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 .completed {
@@ -79,11 +82,11 @@ h2 {
 
 
 @media (max-width: 375px) {
+    *{
+        font-size: .7rem;
+    }
    .tasks-list-footer {
     margin-top: 1rem;
-   }
-   .tasks-list-footer p, .circle + div {
-    font-size: .7rem;
    }
    .circle + div{
     align-items: center;
@@ -92,7 +95,7 @@ h2 {
    display: none;
    }
 
-   .tasks-list div:last-of-type img {
+   .tasks-list > div:last-child > img {
     height: 13px;
     margin: 0;
     padding: 0;

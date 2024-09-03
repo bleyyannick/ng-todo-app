@@ -26,7 +26,7 @@ import { Task, TaskStatus } from '../types';
                 <p>{{ task.description }}</p>
             </div>
           </div>
-          <div (click)="deleteTask(task.id)">
+          <div class="task-delete"  (click)="deleteTask(task.id)">
               <img src="images/icon-cross.svg" alt="cross" />
           </div>
         </div>
