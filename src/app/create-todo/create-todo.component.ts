@@ -35,9 +35,7 @@ export class CreateTodoComponent {
       event.preventDefault();
       this.tasksService.add(this.todo.trim());
       this.todo = ''; 
-    }
-    
-
+    } 
   }
 
   addTask(description: string) {

@@ -39,11 +39,11 @@ export class TasksService {
   }
   
   filterTasksByStatus(status: TaskStatus) {
-    this.filteredTasks.update(() => this._tasks().filter(task => task.status === status));
+    this.filteredTasks.set(this._tasks().filter(task => task.status === status));
   }
 
   showAllTasks() {
-    this.filteredTasks.update(() => [...this._tasks()]);
+    this.filteredTasks.set([...this._tasks()]);
   }
 
   reorderTasks(reorderedTasks: Task[]) {
